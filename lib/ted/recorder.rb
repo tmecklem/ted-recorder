@@ -3,6 +3,8 @@ require "ted/recorder/ted_message"
 
 module Ted
   module Recorder
-    # Your code goes here...
+    def self.logger(msg=nil)
+      puts msg
+    end
   end
 end
