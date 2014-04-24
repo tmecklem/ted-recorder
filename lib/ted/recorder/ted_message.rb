@@ -28,6 +28,9 @@ module Ted
         return false
       end
 
+      # Calculations from http://gangliontwitch.com/ted/
+      # TODO: Document the maths
+
       def power
         bytes = self.raw_power.bytes
         pwr  = bytes[2].to_i << 16
