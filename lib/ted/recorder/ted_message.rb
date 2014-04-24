@@ -14,34 +14,18 @@ module Ted
       unsigned    :unknown,          8,     "Random stuff"
       unsigned    :checksum,         8,     "Checksum (all bytes minus unknown summed and mod 256)"
 
+      # Intercept the initialization to sum the individual bytes while they are
+      # easy to get access
       def initialize(value=nil)
-        # Sum the individual bytes while it's real easy to get to them
         self.sum = (value.bytes[0..8] << value.bytes[10]).reduce(0, :+)
         super
       end
 
+      # Verify that the packet checksum is valid
       def verify?
         return true if sum % 256 == 0
         Ted::Recorder.logger("Checksum didn't check out. Got #{sum % 256}, should be 0")
         return false
-      end
-    end
-
-    class Ted1000Message < TedMessage
-      def initialize(value=nil)
-        msg = Bitwise.string_not value
-        super(msg)
-      end
-
-      def verify?
-        retval = false
-        unless self.lead_in == 0x55
-          Ted::Recorder.logger "Lead in value is not correct! Got #{self.lead_in} expected 0x55."
-          # Don't return here, so we can get all of the errors
-        end
-
-        retval = super
-        return retval
       end
     end
   end
