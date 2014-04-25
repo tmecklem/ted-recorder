@@ -13,7 +13,7 @@ describe Ted::Recorder::MessageDecoder do
   end
 
   describe "#start" do
-    it "should yield with the message object" do
+    it "should yield with the expected message object" do
       expected_message = Ted::Recorder::Ted1000Message.new
       expected_message.lead_in = 0x55
       expected_message.mtu_address = 176

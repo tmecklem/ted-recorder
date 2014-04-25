@@ -37,7 +37,7 @@ module Ted
         pwr += bytes[1].to_i << 8
         pwr += bytes[0].to_i
 
-        pwr = 1.19 + 0.84 * ( ( pwr - 288.0 ) / 204.0 )
+        pwr = (-(pwr - 16777177) * 100 / 6205.0).round(4)
       end
 
       def voltage
@@ -46,7 +46,7 @@ module Ted
         volt += bytes[1].to_i << 8
         volt += bytes[0].to_i
 
-        volt = 123.6 + ( volt - 27620 ) / 85 * 0.4;
+        volt = ((volt - 170350) * 100 / 5582) / 1000.0
       end
     end
   end
