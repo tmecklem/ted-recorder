@@ -1,5 +1,8 @@
 # Ted::Recorder
 
+[![Code Climate](https://codeclimate.com/github/tmecklem/ted-recorder.png)](https://codeclimate.com/github/tmecklem/ted-recorder) [![Build Status](https://travis-ci.org/tmecklem/ted-recorder.svg?branch=master)](https://travis-ci.org/tmecklem/ted-recorder)
+
+
 TODO: Write a gem description
 
 ## Installation
