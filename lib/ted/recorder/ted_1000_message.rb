@@ -6,7 +6,7 @@ module Ted
     class Ted1000Message < TedMessage
       # Intercept the initialization to bitwise flip the packet
       def initialize(value=nil)
-        msg = Bitwise.string_not value
+        msg = Bitwise.string_not value unless value.nil?
         super(msg)
       end
 

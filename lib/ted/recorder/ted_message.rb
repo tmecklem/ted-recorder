@@ -17,7 +17,7 @@ module Ted
       # Intercept the initialization to sum the individual bytes while they are
       # easy to get access
       def initialize(value=nil)
-        self.sum = (value.bytes[0..8] << value.bytes[10]).reduce(0, :+)
+        self.sum = (value.bytes[0..8] << value.bytes[10]).reduce(0, :+) unless value.nil?
         super
       end
 
