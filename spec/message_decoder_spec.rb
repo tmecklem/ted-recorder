@@ -18,8 +18,8 @@ describe Ted::Recorder::MessageDecoder do
       expected_message.lead_in = 0x55
       expected_message.mtu_address = 176
       expected_message.packet_counter = 229
-      expected_message.raw_power = 0x18f3fe
-      expected_message.raw_voltage= 0x61056b
+      expected_message.raw_power = [0x18,0xf3,0xfe].pack('C*')
+      expected_message.raw_voltage= [0x61,0x05,0x6b].pack('C*')
       expected_message.unknown = 251
       expected_message.checksum = 60
 
