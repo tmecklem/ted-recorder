@@ -7,9 +7,9 @@ Gem::Specification.new do |spec|
   spec.name          = "ted-recorder"
   spec.version       = Ted::Recorder::VERSION
   spec.authors       = ["Timothy Mecklem"]
-  spec.email         = ["tmecklem@medplus.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.email         = ["timothy@mecklem.com"]
+  spec.summary       = %q{A gem to help capture and record the data from a TED 1001.}
+  spec.description   = %q{A gem to help capture and record the data from a TED 1001.}
   spec.homepage      = ""
   spec.license       = "MIT"
 
