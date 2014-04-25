@@ -12,9 +12,9 @@ while true do
   end until ["aa"] == byte.unpack('H*')
 
   bytes = "#{byte}#{sp.read(10)}"
-  puts bytes.unpack('H*')
+  #puts bytes.unpack('H*')
 
   message = Ted::Recorder::Ted1000Message.new(bytes)
-  puts message.inspect if message.verify?
-
+  #puts message.inspect if message.verify?
+  puts "Current energy usage: #{message.power} \tCurrent voltage: #{message.voltage}" if message.verify?
 end
