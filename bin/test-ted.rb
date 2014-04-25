@@ -3,31 +3,21 @@
 require 'serialport'
 require 'ted/recorder'
 
-sp = SerialPort.new "/dev/tty.usbserial-A4003wYd", 1200
+sp = SerialPort.new ARGV[0], 1200
 
 
 while true do
   begin
-    byte = 0xFF ^ sp.readbyte
-  end until !byte.nil? && 0x55 == byte
+    byte = sp.readbyte
+  end until !byte.nil? && 0xaa == byte
 
   bytes = [byte]
-  (1..10).each do
-    bytes << (0xFF ^ sp.readbyte)
+  10.times do
+    bytes << sp.readbyte
   end
 
-  checksum = 0
-  bytes.each_with_index do |byte, i|
-    if i < 9 || i == 10 then 
-      checksum = (checksum + byte) % 256 
-    end
-  end
-  #puts "checksum (should be 0): #{checksum}"
-
-  if checksum == 0 
-    message = Ted::Recorder::TedMessage.new(bytes.pack('C*'))
-    puts message.inspect
-  end
+  message = Ted::Recorder::Ted1000Message.new(bytes.pack('C*'))
+  puts message.inspect if message.verify?
 
   #while true do print "%02x" % ~(sp.readbyte) end
 end
