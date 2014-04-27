@@ -30,4 +30,5 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "bit-struct"
   spec.add_dependency "bitwise"
+  spec.add_dependency "influxdb"
 end
