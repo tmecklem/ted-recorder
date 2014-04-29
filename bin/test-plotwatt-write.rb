@@ -14,6 +14,8 @@ meter_id = ARGV[2]
 sp = SerialPort.new ARGV[0], 1200
 influxdb = InfluxDB::Client.new database, :username => username, :password => password
 
+plotwatt_messages = []
+
 while true do
   begin
     byte = sp.read(1)
@@ -28,8 +30,13 @@ while true do
     puts "Wrote power:#{message.power} and voltage:#{message.voltage} to influxdb"
 
     kw_power = message.power / 1000.0
-    plotwatt_message = "#{meter_id},#{kw_power},#{Time.new.to_i}"
-    RestClient.post "http://#{api_key}:@plotwatt.com/api/v2/push_readings", plotwatt_message
+    plotwatt_messages << "#{meter_id},#{kw_power.round(2)},#{Time.new.to_i}"
+    if plotwatt_messages.size >= 60
+      puts plotwatt_messages.join(',')
+      response = RestClient.post "http://#{api_key}:@plotwatt.com/api/v2/push_readings", plotwatt_messages.join(',')
+      puts response
+      plotwatt_messages = []
+    end
   end
 
 end
