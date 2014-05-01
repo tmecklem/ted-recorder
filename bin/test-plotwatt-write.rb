@@ -25,17 +25,25 @@ while true do
 
   message = Ted::Recorder::Ted1000Message.new(bytes)
   if message.verify?
-    influxdb.write_point("power", {:value => message.power})
-    influxdb.write_point("voltage", {:value => message.voltage})
-    puts "Wrote power:#{message.power} and voltage:#{message.voltage} to influxdb"
+
+    puts "received and verified #{message.inspect}"
+    begin
+      influxdb.write_point("power", {:value => message.power})
+      influxdb.write_point("voltage", {:value => message.voltage})
+      puts "Wrote power:#{message.power} and voltage:#{message.voltage} to influxdb"
+    rescue InfluxDB::Error => e
+      puts e
+    end
 
     kw_power = message.power / 1000.0
     plotwatt_messages << "#{meter_id},#{kw_power.round(2)},#{Time.new.to_i}"
     if plotwatt_messages.size >= 60
       puts plotwatt_messages.join(',')
-      response = RestClient.post "http://#{api_key}:@plotwatt.com/api/v2/push_readings", plotwatt_messages.join(',')
-      puts response
-      plotwatt_messages = []
+      begin
+        response = RestClient.post "http://#{api_key}:@plotwatt.com/api/v2/push_readings", plotwatt_messages.join(',')
+        plotwatt_messages = [] if response.code == 200
+      rescue RestClient::ServerBrokeConnection
+      end
     end
   end
 
