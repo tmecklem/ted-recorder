@@ -42,7 +42,8 @@ while true do
       begin
         response = RestClient.post "http://#{api_key}:@plotwatt.com/api/v2/push_readings", plotwatt_messages.join(',')
         plotwatt_messages = [] if response.code == 200
-      rescue RestClient::ServerBrokeConnection
+      rescue 
+        puts e
       end
     end
   end
